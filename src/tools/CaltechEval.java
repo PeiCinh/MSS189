@@ -210,9 +210,27 @@ public class CaltechEval {
     private boolean inOperand(char c) {
         return (c >= '0' && c <= '9') || c == '.';
     }
+    
+    /*
+     * 修正錯誤的運算式
+     */
+    private String checkTokenString(String s) {
+		String c = "";
+		char t = s.charAt(s.length()-1);
+		c += s.charAt(s.length()-1);
+		if(c == "+" || c == "-") {
+			s += "0";
+		}else if(c == "*" || c == "/") {
+			s += "1";
+		}else if(t == '%') {
+			s = s.substring(0, s.length()-1);
+		}
+    	return s;
+    }
 
     private Vector toTokens(String s) {
         Vector tokenStrings = new Vector(1);
+        s = checkTokenString(s);
         String operand = "";
         String operator = "";
         int nd = 0;
